@@ -7,13 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllersWithViews();
 
-// Database configuration (development fallback)
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Database configuration
+string? connectionString;
 
 // Azure Key Vault integration (production)
 if (!builder.Environment.IsDevelopment())
 {
-    var keyVaultEndpoint = new Uri(builder.Configuration["VaultUri"]!);
+    var keyVaultEndpoint = new Uri(builder.Configuration["VaultUri"] 
+        ?? throw new ArgumentNullException("VaultUri is not configured"));
+    
     builder.Configuration.AddAzureKeyVault(
         keyVaultEndpoint,
         new DefaultAzureCredential(new DefaultAzureCredentialOptions
@@ -21,15 +23,20 @@ if (!builder.Environment.IsDevelopment())
             ManagedIdentityClientId = builder.Configuration["AZURE_CLIENT_ID"]
         }));
     
-    // Override with production connection string from Key Vault
-    connectionString = builder.Configuration["StudentDbConnectionString"];
+    connectionString = builder.Configuration["StudentDbConnectionString"] 
+        ?? throw new ArgumentNullException("StudentDbConnectionString is not configured");
+}
+else
+{
+    // Explicitly block local DB usage as per your requirement
+    throw new InvalidOperationException("Local development is disabled. Use Azure deployment only.");
 }
 
 // DbContext configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         connectionString,
-        sqlOptions => sqlOptions.EnableRetryOnFailure()));
+        sqlOptions => sqlOptions.EnableRetryOnFailure(maxRetryCount: 3)));
 
 var app = builder.Build();
 
@@ -49,4 +56,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();  
+app.Run();
