@@ -287,3 +287,4 @@ D:\Azure Notes\Azure\mvcv2\stuentdb\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.S
 D:\Azure Notes\Azure\mvcv2\stuentdb\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\Azure Notes\Azure\mvcv2\stuentdb\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\Azure Notes\Azure\mvcv2\stuentdb\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\Azure Notes\Azure\mvcv2\stuentdb\obj\Debug\net8.0\stuentdb.sourcelink.json

@@ -1,65 +1,44 @@
 @model IEnumerable<studentdb.Models.Student>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Students";
 }
 
-<h1>Index</h1>
+<h1>Student List</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<!-- Create Button -->
+<div style="margin-bottom: 15px;">
+    <a href="/Students/Create" style="padding: 5px 10px; background: #4CAF50; color: white; text-decoration: none;">Add New Student</a>
+</div>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EnrollmentDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GPA)
-            </th>
-            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Enrollment Date</th>
+            <th>Date of Birth</th>
+            <th>GPA</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EnrollmentDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GPA)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.StudentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.StudentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.StudentId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.EnrollmentDate.ToShortDateString()</td>
+                <td>@(item.DateOfBirth?.ToShortDateString())</td>
+                <td>@item.GPA</td>
+                <td>
+                    <a href="/Students/Edit/@item.StudentId" style="padding: 3px 6px; background: #FFC107; color: black; text-decoration: none; margin-right: 5px;">Edit</a>
+                    <a href="/Students/Details/@item.StudentId" style="padding: 3px 6px; background: #2196F3; color: white; text-decoration: none; margin-right: 5px;">View</a>
+                    <a href="/Students/Delete/@item.StudentId" style="padding: 3px 6px; background: #F44336; color: white; text-decoration: none;">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
