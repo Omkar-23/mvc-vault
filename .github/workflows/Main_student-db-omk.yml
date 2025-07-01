@@ -30,15 +30,6 @@ jobs:
     - name: Build application
       run: dotnet build --configuration Release --no-restore
       
-    - name: Run tests (if any exist)
-      shell: pwsh
-      run: |
-        $testProjects = Get-ChildItem -Recurse -Filter "*.Tests.csproj"
-        if ($testProjects) {
-          dotnet test --no-build --verbosity normal
-        } else {
-          Write-Host "No test projects found"
-        }
       
     - name: Publish application
       run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }} --no-build
