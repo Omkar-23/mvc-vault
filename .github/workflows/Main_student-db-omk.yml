@@ -8,7 +8,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: student-db-omk
   DOTNET_VERSION: '8.0.x'
-  AZURE_WEBAPP_PACKAGE_PATH: '${{ github.workspace }}/publish'
+  AZURE_WEBAPP_PACKAGE_PATH: './publish'
 
 jobs:
   build-and-deploy:
@@ -31,22 +31,21 @@ jobs:
       run: dotnet build --configuration Release --no-restore
       
     - name: Run tests (if any exist)
+      shell: pwsh
       run: |
-        if (Test-Path "*.Tests*") {
+        $testProjects = Get-ChildItem -Recurse -Filter "*.Tests.csproj"
+        if ($testProjects) {
           dotnet test --no-build --verbosity normal
         } else {
-          Write-Host "No test projects found, skipping tests"
+          Write-Host "No test projects found"
         }
-      shell: pwsh
-      continue-on-error: true
       
     - name: Publish application
       run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }} --no-build
       
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v3  # Updated to v3
+      uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
