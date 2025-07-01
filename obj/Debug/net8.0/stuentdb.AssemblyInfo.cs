@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("stuentdb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b60a5a3b4202c403c8c5f6e795ef5f96d02217ac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61b04c3f5c3c6b8d8ac77b63e5b607769957c478")]
 [assembly: System.Reflection.AssemblyProductAttribute("stuentdb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("stuentdb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
